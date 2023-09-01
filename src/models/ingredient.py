@@ -7,7 +7,6 @@ class Restriction(Enum):
     SEAFOOD = "SEAFOOD"
     LACTOSE = "LACTOSE"
     GLUTEN = "GLUTEN"
-    
 
     def __eq__(self, __o: object) -> bool:
         return repr(self) == repr(__o)
