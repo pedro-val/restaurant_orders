@@ -54,7 +54,6 @@ class MenuData:
         return dishes
 
     def add_ingredients(self, dish: Dish, ingredients):
-        for dish_name in ingredients:
-            for ingredient in ingredients:
-                dish.add_ingredient_dependency(
-                    Ingredient(ingredient[0]), ingredient[1])
+        for ingredient in ingredients:
+            dish.add_ingredient_dependency(
+                Ingredient(ingredient[0]), ingredient[1])
