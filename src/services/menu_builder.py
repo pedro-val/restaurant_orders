@@ -29,6 +29,12 @@ class MenuBuilder:
     # Req 4
     def get_main_menu(self, restriction=None) -> List[Dict]:
         dishes = self.menu_data.dishes
+        for dish in dishes:
+            if self.inventory.check_recipe_availability(dish.recipe) is False:
+                return []
+        return self.mount_menu(dishes, restriction)
+
+    def mount_menu(self, dishes, restriction=None) -> List[Dict]:
         retorno = []
         for dish in dishes:
             retorno.append(
@@ -50,3 +56,10 @@ class MenuBuilder:
             if restriction not in dish['restrictions']:
                 retorno.append(dish)
         return sorted(retorno, key=lambda dish: dish['dish_name'])
+
+    def checking_inventory(self, dish):
+        try:
+            self.inventory.consume_recipe(dish.recipe)
+            return True
+        except ValueError:
+            return False

@@ -28,7 +28,7 @@ class InventoryMapping:
     def check_recipe_availability(self, recipe: Recipe) -> bool:
         inventory = self.inventory
         for ingredient, amount in recipe.items():
-            if inventory[ingredient] < amount:
+            if ingredient not in inventory or inventory[ingredient] < amount:
                 return False
         return True
     # Req 5.2
