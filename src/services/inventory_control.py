@@ -16,7 +16,6 @@ def read_csv_inventory(inventory_file_path=BASE_INVENTORY) -> Inventory:
         for row in DictReader(file):
             ingredient = Ingredient(row["ingredient"])
             inventory[ingredient] = int(row["initial_amount"])
-
     return inventory
 
 
@@ -27,8 +26,12 @@ class InventoryMapping:
 
     # Req 5.1
     def check_recipe_availability(self, recipe: Recipe) -> bool:
-        pass
-
+        inventory = self.inventory
+        for ingredient, amount in recipe.items():
+            if inventory[ingredient] < amount:
+                return False
+        return True
     # Req 5.2
+
     def consume_recipe(self, recipe: Recipe) -> None:
         pass
