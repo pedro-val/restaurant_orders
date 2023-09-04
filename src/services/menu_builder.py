@@ -1,10 +1,12 @@
 from typing import Dict, List
-
 from services.inventory_control import InventoryMapping
 from services.menu_data import MenuData
 
 DATA_PATH = "data/menu_base_data.csv"
 INVENTORY_PATH = "data/inventory_base_data.csv"
+
+DATA_PATH = "tests/mocks/menu_base_data.csv"
+INVENTORY_PATH = "tests/mocks/inventory_base_data.csv"
 
 
 class MenuBuilder:
@@ -26,4 +28,25 @@ class MenuBuilder:
 
     # Req 4
     def get_main_menu(self, restriction=None) -> List[Dict]:
-        pass
+        dishes = self.menu_data.dishes
+        retorno = []
+        for dish in dishes:
+            retorno.append(
+                {
+                    "dish_name": dish.name,
+                    "ingredients": dish.get_ingredients(),
+                    "price": dish.price,
+                    "restrictions": dish.get_restrictions(),
+                }
+            )
+        if restriction:
+            return self.filter_restrictions(retorno, restriction)
+        else:
+            return sorted(retorno, key=lambda dish: dish['dish_name'])
+
+    def filter_restrictions(self, dishes, restriction):
+        retorno = []
+        for dish in dishes:
+            if restriction not in dish['restrictions']:
+                retorno.append(dish)
+        return sorted(retorno, key=lambda dish: dish['dish_name'])
